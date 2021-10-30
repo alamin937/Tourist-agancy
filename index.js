@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 var MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId
 const app = express()
 require('dotenv').config()
 
@@ -62,6 +63,14 @@ async function run() {
                 email: req.params.email
             }).toArray()
             res.send(result)
+        })
+        // delete manageUsers
+        app.delete('/users/:id', async(req,res) =>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)}
+            const result = await collectUserInfo.deleteOne(query)
+            console.log(result)
+            res.json(result)
         })
 
       
